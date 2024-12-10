@@ -28,13 +28,13 @@ def get_results(text: str) ->  tuple[list[re.Match], list[str]]:
     if c_patt:
         findall_results = re.findall(c_patt, text)
         
-    matches = re.finditer(c_patt, text)
+    m = re.search(c_patt, text) # re.finiter returns all matches
     counter = 0
     pprint_results = list(text)
 
 # Add color to appropriate characters 
-    for m in matches:
-        #listext.insert(i.span()[0]+counter,":blue-background[:red[")
+    if m: 
+        gl1, gl2, gl = [str(digit) for digit in m.groups()]
         start = m.span()[0]
         end = m.span()[1]
         pprint_results.insert(start+counter, ':red-background[')
@@ -42,7 +42,7 @@ def get_results(text: str) ->  tuple[list[re.Match], list[str]]:
         counter +=2 # List has lengthened by two
 
     pprint_results ="".join(pprint_results)
-    return findall_results, pprint_results
+    return findall_results, pprint_results, [gl1, gl2, gl] if m else []
 
 
 sentence = st.text_input('Hello! Input your text here:', value=test_strings[0]) 
@@ -54,7 +54,7 @@ try:
 except Exception as e:
     st.text("Wrong Pattern", e)
 
-findall_results, pprint_results = get_results(sentence)
+findall_results, pprint_results, m = get_results(sentence)
 if len(pattern) == 0:
     st.text("Waiting For Pattern")
     st.markdown(sentence)
@@ -69,13 +69,24 @@ st.markdown('---')
 st.markdown('## Full test')
 
 for text in test_strings:
-    findall_results, pprint_results = get_results(text)
+    findall_results, pprint_results, m = get_results(text)
     num = str(len(findall_results)) 
+    scores = ', '.join(m)
     if num == str(0):
         st.markdown(f':red-background[NO results] |  {pprint_results}')
+        continue
+    elif num == str(1):
+        st.markdown(
+            f':green-background[{num:0>2}] results | '
+            f'{pprint_results} |'
+            f' {scores}'
+        )
     else:
-        st.markdown(f':red-background[{num:0>2}] results |  '+ pprint_results + '')
-
+        st.markdown(
+            f':red-background[{num:0>2}] results | ' 
+            f'{pprint_results} |'
+            f' {scores}'
+        )
 
 st.markdown('---')
 st.markdown('*Hope that helped! :cat:*')
