@@ -20,7 +20,7 @@ regexs = get_regexs()
 strings = get_strings()
 
 # -- UI
-sentence = st.text_input('Input your text here:', value=strings[0]) 
+sentence = st.text_input('Hello! Input your text here:', value=strings[0]) 
 pattern = st.text_input('Enter pattern to find here',
                         value=regexs['regex_total_last'])
 
@@ -46,7 +46,7 @@ for m in matches:
     #listext.insert(i.span()[0]+counter,":blue-background[:red[")
     start = m.span()[0]
     end = m.span()[1]
-    listext.insert(start+counter, ':blue-background[')
+    listext.insert(start+counter, ':red-background[')
     listext.insert(end+1+counter, ']')
     counter +=2 # List has lengthened by two
 
@@ -60,8 +60,8 @@ elif not findall_results:
     st.text("Pattern Not Found")
     st.markdown(sentence)
 else:
-    count_message = "Pattern Found at " + str(len(findall_results)) + " location(s)"
-    st.text(count_message)
+    count_message = "Pattern Found at **" + str(len(findall_results)) + "** location(s)"
+    st.markdown(count_message)
     st.markdown(''+ listext + '')
 st.markdown('---')
 
