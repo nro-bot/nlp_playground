@@ -1,3 +1,5 @@
+# Must NEVER include private data -- only filepaths!
+
 def get_regexs() -> dict[str, str]:
     _6to10_ = r"\b[6-9]|10\b"
     conjunction = r"&|and|\+"
