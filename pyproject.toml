@@ -1,0 +1,10 @@
+[project]
+name = "nlp_tester"
+version = "0.1.0"
+description = "Tool to test nlp extraction"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "streamlit>=1.40.2",
+    "watchdog>=6.0.0",
+]
