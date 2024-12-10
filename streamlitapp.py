@@ -46,7 +46,7 @@ for m in matches:
     #listext.insert(i.span()[0]+counter,":blue-background[:red[")
     start = m.span()[0]
     end = m.span()[1]
-    listext.insert(start+counter, ':blue[')
+    listext.insert(start+counter, ':blue-background[')
     listext.insert(end+1+counter, ']')
     counter +=2 # List has lengthened by two
 
@@ -65,7 +65,6 @@ else:
     st.markdown(''+ listext + '')
 st.markdown('---')
 
-st.markdown('Now testing all strings...')
 
 
 st.markdown(':tada: Hope that helped! :cat:')
