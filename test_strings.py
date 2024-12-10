@@ -1,3 +1,18 @@
+def get_regexs() -> dict[str, str]:
+    _6to10_ = r"\b[6-9]|10\b"
+    conjunction = r"&|and|\+"
+    regex_total_last = rf"([3-5])\D*([3-5])\D*({_6to10_})"
+    regex_total_first = rf"({_6to10_})\D*([3-5])\D*([3-5])"
+    regex_no_total = rf"([3-5])\s*({conjunction})\s*([3-5])"
+
+    return {
+        "regex_total_last": regex_total_last,
+        "regex_total_first": regex_total_first,
+        "regex_no_total": regex_no_total,
+    }
+
+
+
 def get_strings() -> list:
     str1A = 'gleason score 3+3 = 6; 3 of 3 cores; 40%'
     str1B = 'gleason score 4+4=9; one of two; 10%'

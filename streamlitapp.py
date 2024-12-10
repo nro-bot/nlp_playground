@@ -39,8 +39,8 @@ x = re.finditer(patt, text)
 counter = 0
 listext = list(text)
 for i in x:
-    listext.insert(i.span()[0]+counter,"<b>")
-    listext.insert(i.span()[1]+1+counter,"</b>")
+    listext.insert(i.span()[0]+counter,":blue[")
+    listext.insert(i.span()[1]+1+counter,"]")
     counter +=2
 
 listext ="".join(listext)
@@ -55,7 +55,7 @@ elif not find:
 else:
     message = "Pattern Found at " + str(len(find)) + " location(s)"
     st.text(message)
-    st.markdown(listext, unsafe_allow_html=True)
+    st.markdown(listext)
     
 
 
