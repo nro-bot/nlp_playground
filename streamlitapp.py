@@ -2,63 +2,70 @@
 
 import re
 import streamlit as st
+from utils import get_regexs, get_strings
 
 st.title('Regex Playground')
 
+# st.sidebar.title("How it works")
+# st.sidebar.info(
+# """
+# 1. Paste the text document in the first box. 
 
-st.sidebar.title("How it works")
-st.sidebar.info(
-        """
-1. Paste the text document in the first box. 
+
+# 2. Try Creating a regular expression pattern to fit the word or string that you want to find. For example the twitter handle of Ron Miller - "@[a-z_]+"
+# 3. Press Enter - the text **is colored** if your pattern is correct.
+# """)
+
+regexs = get_regexs()
+strings = get_strings()
+
+# -- UI
+sentence = st.text_input('Input your text here:', value=strings[0]) 
+pattern = st.text_input('Enter pattern to find here',
+                        value=regexs['regex_total_last'])
 
 
-2. Try Creating a regular expression pattern to fit the word or string that you want to find. For example the twitter handle of Ron Miller - "@[a-z_]+"
-3. Press Enter - the text **becomes bold** if your pattern is correct.
-""")
-
-sentence = st.text_input('Input your text here:') 
- 
-pattern = st.text_input('Enter pattern to find here')
-
-patt = ""
-find = []
-
+c_patt = ""
 try:
-    re.compile(pattern)
-except:
-    st.text("Wrong Pattern")
-else:
-    patt = re.compile(pattern)
+   c_patt = re.compile(pattern)
+except Exception as e:
+    st.text("Wrong Pattern", e)
 
-
-if patt:
-    find = re.findall(patt, sentence)
+findall_results = []
+if c_patt:
+    findall_results = re.findall(c_patt, sentence)
     
-text = sentence   
-x = re.finditer(patt, text)
+
+text = sentence
+matches = re.finditer(c_patt, text)
 counter = 0
 listext = list(text)
-for i in x:
-    listext.insert(i.span()[0]+counter,":blue[")
-    listext.insert(i.span()[1]+1+counter,"]")
-    counter +=2
+
+# Add color to appropriate characters 
+for m in matches:
+    #listext.insert(i.span()[0]+counter,":blue-background[:red[")
+    start = m.span()[0]
+    end = m.span()[1]
+    listext.insert(start+counter, ':blue[')
+    listext.insert(end+1+counter, ']')
+    counter +=2 # List has lengthened by two
 
 listext ="".join(listext)
 
 
 if len(pattern) == 0:
     st.text("Waiting For Pattern")
-    st.markdown(sentence, unsafe_allow_html=True)
-elif not find: 
+    st.markdown(sentence)
+elif not findall_results: 
     st.text("Pattern Not Found")
-    st.markdown(sentence, unsafe_allow_html=True)    
+    st.markdown(sentence)
 else:
-    message = "Pattern Found at " + str(len(find)) + " location(s)"
-    st.text(message)
-    st.markdown(listext)
-    
+    count_message = "Pattern Found at " + str(len(findall_results)) + " location(s)"
+    st.text(count_message)
+    st.markdown(''+ listext + '')
+st.markdown('---')
+
+st.markdown('Now testing all strings...')
 
 
-
-    
-
+st.markdown(':tada: Hope that helped! :cat:')
