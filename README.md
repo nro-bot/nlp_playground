@@ -16,3 +16,8 @@ uv run streamlit run streamlitapp.py
 uv run python -m http.server
 ```
 
+With thanks to:
+https://alanjones2.github.io/articles/stlite/stlite.html
+https://github.com/whitphx/stlite-image-processing-app/tree/main
+https://www.youtube.com/watch?v=7Qja9ZAWcfw
+https://github.com/whitphx/stlite/tree/main
