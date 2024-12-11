@@ -46,47 +46,52 @@ def get_results(text: str) ->  tuple[list[re.Match], list[str]]:
 
 
 sentence = st.text_input('Hello! Input your text here:', value=test_strings[0]) 
-pattern = st.text_input('Enter pattern to find here',
+pattern = st.text_input(
+'Enter pattern to find here. **NOTE: must contain three groups**',
                         value=regexs['regex_total_last'])
 c_patt = ""
+HACK_FLAG = False 
 try:
    c_patt = re.compile(pattern)
 except Exception as e:
-    st.text("Wrong Pattern", e)
+    st.text(f"Oops! Bad regex input. Error message:: {e}")
+    HACK_FLAG = True
 
-findall_results, pprint_results, m = get_results(sentence)
-if len(pattern) == 0:
-    st.text("Waiting For Pattern")
-    st.markdown(sentence)
-elif not findall_results: 
-    st.text("Pattern Not Found")
-    st.markdown(sentence)
-else:
-    count_message = "Pattern Found at **" + str(len(findall_results)) + "** location(s)"
-    st.markdown(count_message)
-    st.markdown(''+ pprint_results + '')
-st.markdown('---')
-st.markdown('## Full test')
+if not HACK_FLAG:
 
-for text in test_strings:
-    findall_results, pprint_results, m = get_results(text)
-    num = str(len(findall_results)) 
-    scores = ', '.join(m)
-    if num == str(0):
-        st.markdown(f':red-background[NO results] |  {pprint_results}')
-        continue
-    elif num == str(1):
-        st.markdown(
-            f':green-background[{num:0>2}] results | '
-            f'{pprint_results} |'
-            f' {scores}'
-        )
+    findall_results, pprint_results, m = get_results(sentence)
+    if len(pattern) == 0:
+        st.text("Waiting For Pattern")
+        st.markdown(sentence)
+    elif not findall_results: 
+        st.text("Pattern Not Found")
+        st.markdown(sentence)
     else:
-        st.markdown(
-            f':red-background[{num:0>2}] results | ' 
-            f'{pprint_results} |'
-            f' {scores}'
-        )
+        count_message = "Pattern Found at **" + str(len(findall_results)) + "** location(s)"
+        st.markdown(count_message)
+        st.markdown(''+ pprint_results + '')
+    st.markdown('---')
+    st.markdown('## Full test')
 
-st.markdown('---')
-st.markdown('*Hope that helped! :cat:*')
+    for text in test_strings:
+        findall_results, pprint_results, m = get_results(text)
+        num = str(len(findall_results)) 
+        scores = ', '.join(m)
+        if num == str(0):
+            st.markdown(f':red-background[NO results] |  {pprint_results}')
+            continue
+        elif num == str(1):
+            st.markdown(
+                f':green-background[{num:0>2}] results | '
+                f'{pprint_results} |'
+                f' {scores}'
+            )
+        else:
+            st.markdown(
+                f':red-background[{num:0>2}] results | ' 
+                f'{pprint_results} |'
+                f' {scores}'
+            )
+
+    st.markdown('---')
+    st.markdown('*Hope that helped! :cat:*')
