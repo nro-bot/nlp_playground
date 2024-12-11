@@ -7,15 +7,16 @@ from utils import get_regexs, get_strings
 
 st.title('NLP Playground')
 
-# st.sidebar.title("How it works")
-# st.sidebar.info(
-# """
-# 1. Paste the text document in the first box. 
+st.sidebar.title("How it works")
+st.sidebar.info(
+"""
+1. Paste the text document in the first box. 
 
+2. Enter a regex pattern  
 
-# 2. Try Creating a regular expression pattern to fit the word or string that you want to find. For example the twitter handle of Ron Miller - "@[a-z_]+"
-# 3. Press Enter - the text **is colored** if your pattern is correct.
-# """)
+3. Press Enter to see the results. 
+The text **is colored** if your pattern is correct (produces nonzero matches)
+""")
 
 regexs = get_regexs()
 test_strings = get_strings()
